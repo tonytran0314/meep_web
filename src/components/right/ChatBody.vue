@@ -1,107 +1,135 @@
 <script setup>
 
+    import axios from 'axios'
+    import { onMounted, ref } from 'vue'
+    // import Echo from 'laravel-echo'
+
     // const seenTime = '00:00am 05/13/2024'
     // if seenTime >= message.time -> insert seenRow
     // thinking about catch Seen Event mechanism
     const currentUserID = 1
-    const messages = [
-        {
-            userId: 1,
-            content: 'Test message 1',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 3',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 4',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 5',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 6',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 1',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 3',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 4',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 5',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 6',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 1',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 3',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 4',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 2,
-            content: 'Test message 5',
-            time: '00:00am 05/13/2024'
-        },
-        {
-            userId: 1,
-            content: 'Test message 6',
-            time: '00:00am 05/13/2024'
-        },
-    ]
+    // const messages = [
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 1',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 3',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 4',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 5',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 6',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 1',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 3',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 4',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 5',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 6',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 1',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 3',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 4',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 2,
+    //         content: 'Test message 5',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    //     {
+    //         userId: 1,
+    //         content: 'Test message 6',
+    //         time: '00:00am 05/13/2024'
+    //     },
+    // ]
+    const messages = ref([])
 
-    // onMounted(() => {
-    //     Echo.private('message').listen('MessgeEvent', e => {
-    //         console.log(e)
-    //     })
-    // })
+    const getMessages = async () => {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/messages')
+            fetchMessages(res.data.data)
+        } catch (error) {
+            throw(error)
+        }
+    }
+
+    const fetchMessages = (returnData) => {
+        messages.value = returnData
+    }
+
+    const addNewMessageToArray = (newMessage) => {
+        messages.value.push(newMessage)
+        // console.log(newMessage)
+    }
+
+    onMounted(() => {
+        // Echo.private('message').listen('MessgeEvent', e => {
+        //     console.log(e)
+        // })
+        getMessages()
+        Echo.channel('message-channel').listen('MessageEvent', e => {
+            addNewMessageToArray(e.data)
+        })
+    })
 </script>
 
 <template>
@@ -110,7 +138,7 @@
             v-for="(message, index) in messages" 
             class="chat_row"
             :key="index"
-            :class="{my_chat_row: message.userId === currentUserID}">
+            :class="{my_chat_row: message.senderId === currentUserID}">
                 <div class="chat_content">{{ message.content }}</div>    
         </div>
     </div>

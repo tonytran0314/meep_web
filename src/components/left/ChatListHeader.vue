@@ -25,8 +25,8 @@
 
 <template>
     <div id="chat_list_header">
-        <div @click="showSettingMenu" id="avatar">
-            <img src="/src/assets/images/huy.jpg" alt="my avatar">
+        <div id="avatar">
+            <img @click="showSettingMenu" src="/src/assets/images/huy.jpg" alt="my avatar">
             <div id="setting_menu">
                 <ul>
                     <li>Settings</li>

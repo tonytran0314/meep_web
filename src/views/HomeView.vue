@@ -6,15 +6,6 @@
     import axios from 'axios'
     import { onMounted } from 'vue'
 
-    const getData = async () => {
-        try {
-            const res = await axios.get('http://127.0.0.1:8000/api/v1/test')
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     const assignHeader = (token) => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     }
@@ -30,9 +21,7 @@
     }
 
     onMounted(() => {
-        if(loginCheck()) {
-            getData()
-        }
+        loginCheck()
     })
 </script>
 

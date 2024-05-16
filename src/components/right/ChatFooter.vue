@@ -1,5 +1,30 @@
 <script setup>
-    
+    import { ref } from 'vue'
+    import axios from 'axios'
+
+    const messageContent = ref('')
+
+    const sendMessage = async (event) => {
+        event.preventDefault()
+        
+        const sender_id = 1
+        const receiver_id = 5
+
+        const messageData = {
+            sender_id: sender_id,
+            receiver_id: receiver_id,
+            content: messageContent.value,
+        }
+        
+        messageContent.value = ''
+
+        try {
+            await axios.post('http://127.0.0.1:8000/api/v1/add_message', messageData)
+        } catch (error) {
+            throw(error)
+        }
+        
+    }
 </script>
 
 <template>
@@ -9,12 +34,14 @@
             <div id="images"><img src="/src/assets/images/Img_box_fill.png" alt="sticker"></div>
             <div id="voices"><img src="/src/assets/images/Mic_fill.png" alt="sticker"></div>
         </div>
-        <div id="chat_input">
-            <input type="text" placeholder="Aa">
-        </div>
-        <div id="send">
-            <img src="/src/assets/images/Send_fill.png" alt="send">
-        </div>
+        <form>
+            <div id="chat_input">
+                <input v-model="messageContent" type="text" name="content" placeholder="Aa">
+            </div>
+            <button @click="sendMessage" type="submit" id="send">
+                <img src="/src/assets/images/Send_fill.png" alt="send">
+            </button>
+        </form>
     </div>
 </template>
 
@@ -29,7 +56,6 @@
         display: flex;
         gap: 1.5rem;
         padding: 0 1.5rem;
-        // justify-content: space-between;
         align-items: center;
         background-color: $boxColor;
 
@@ -42,26 +68,32 @@
             }
         }
 
-        #chat_input {
+        form {
+            display: flex;
+            gap: 1.5rem;
             width: 100%;
-            input {
-                border: none;
-                width: inherit;
-                border-radius: 1rem;
-                padding: 0.3rem 1rem;
-                background-color: $baseColor;
-                color: $white;
-                @include text();
 
-                &:focus {
-                    outline: none;
+            #chat_input {
+                width: 100%;
+                input {
+                    border: none;
+                    width: inherit;
+                    border-radius: 1rem;
+                    padding: 0.3rem 1rem;
+                    background-color: $baseColor;
+                    color: $white;
+                    @include text();
+
+                    &:focus {
+                        outline: none;
+                    }
                 }
             }
-        }
 
-        #send {
-            img {
+            #send {
+                border: none;
                 cursor: pointer;
+                background-color: $boxColor;
             }
         }
     }
