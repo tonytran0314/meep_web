@@ -44,7 +44,7 @@
     #chat_list_body {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: .75rem;
         overflow-x: hidden;
         overflow-y: scroll;
 

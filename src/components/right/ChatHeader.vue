@@ -29,7 +29,7 @@
 
     #chat_header {
         width: 100%;
-        height: 4rem;
+        height: 5rem;
         border-radius: 1rem;
         display: flex;
         justify-content: space-between;

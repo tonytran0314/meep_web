@@ -35,6 +35,9 @@
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
+        padding: 1rem;
+        border-radius: 1rem;
+        background-color: $baseColor;
 
         .chat_item {
             display: flex;

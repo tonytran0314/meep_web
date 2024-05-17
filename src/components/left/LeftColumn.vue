@@ -18,7 +18,7 @@
         min-width: 24rem;
         height: 100%;
         border-radius: 1rem;
-        padding: 1.5rem 1.5rem 1.75rem 1.5rem;
+        padding: 1.5rem 0.5rem;
         display: flex;
         flex-direction: column;
         gap: 3rem;
