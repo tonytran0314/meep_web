@@ -1,5 +1,7 @@
 <script setup>
-    
+    import {useRoute} from 'vue-router'
+
+    const route = useRoute()
 </script>
 
 <template>
@@ -8,7 +10,7 @@
             <div id="current_chat_avatar">
                 <img src="/src/assets/images/huy.jpg" alt="avatar">
             </div>
-            <h5>Trần Gia Huy</h5>
+            <h5>{{ $route.params.conversationId }}</h5>
         </div>
         <div id="call_methods">
             <div id="voice_call">

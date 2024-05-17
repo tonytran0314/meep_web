@@ -1,111 +1,33 @@
 <script setup>
 
     import axios from 'axios'
-    import { onMounted, ref } from 'vue'
+    import { onMounted, ref, watchEffect } from 'vue'
+    import { useRoute } from 'vue-router'
     // import Echo from 'laravel-echo'
 
     // const seenTime = '00:00am 05/13/2024'
     // if seenTime >= message.time -> insert seenRow
     // thinking about catch Seen Event mechanism
-    const currentUserID = 1
-    // const messages = [
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 1',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 3',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 4',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 5',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 6',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 1',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 3',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 4',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 5',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 6',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 1',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis deleniti tempore, quam doloribus beatae omnis a quidem laudantium eveniet ullam repudiandae, unde natus maxime. Pariatur a harum suscipit illum expedita!',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 3',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 4',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 2,
-    //         content: 'Test message 5',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    //     {
-    //         userId: 1,
-    //         content: 'Test message 6',
-    //         time: '00:00am 05/13/2024'
-    //     },
-    // ]
+    
+    let currentUserID = null
     const messages = ref([])
+    const route = useRoute()
+    const conversationId = ref(null)
+
+    const getMyId = async () => {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/my_profile/')
+            assignId(res.data.data.id)
+        } catch (error) {
+            throw(error)
+        }
+    }
 
     const getMessages = async () => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
         try {
-            const res = await axios.get('http://127.0.0.1:8000/api/v1/messages')
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/messages/' + conversationId.value)
             fetchMessages(res.data.data)
         } catch (error) {
             throw(error)
@@ -116,15 +38,20 @@
         messages.value = returnData
     }
 
-    const addNewMessageToArray = (newMessage) => {
-        messages.value.push(newMessage)
-        // console.log(newMessage)
+    const assignId = (id) => {
+        currentUserID = id
     }
 
-    onMounted(() => {
+    const addNewMessageToArray = (newMessage) => {
+        messages.value.push(newMessage)
+    }
+
+    watchEffect(() => {
         // Echo.private('message').listen('MessgeEvent', e => {
         //     console.log(e)
         // })
+        conversationId.value = route.params.conversationId
+        getMyId()
         getMessages()
         Echo.channel('message-channel').listen('MessageEvent', e => {
             addNewMessageToArray(e.data)

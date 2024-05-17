@@ -1,18 +1,17 @@
 <script setup>
     import { ref } from 'vue'
     import axios from 'axios'
+    import { useRoute } from 'vue-router'
 
     const messageContent = ref('')
+    const route = useRoute()
+    const conversationId = route.params.conversationId
 
     const sendMessage = async (event) => {
         event.preventDefault()
         
-        const sender_id = 1
-        const receiver_id = 5
-
         const messageData = {
-            sender_id: sender_id,
-            receiver_id: receiver_id,
+            conversation_id: conversationId,
             content: messageContent.value,
         }
         
@@ -23,7 +22,6 @@
         } catch (error) {
             throw(error)
         }
-        
     }
 </script>
 

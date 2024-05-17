@@ -64,7 +64,7 @@
     }
     
     const directToHome = () => {
-        router.push('/')
+        router.push('/chat')
     }
 
     // USE REFRESH-TOKEN INSTEAD

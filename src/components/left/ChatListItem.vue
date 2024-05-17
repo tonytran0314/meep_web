@@ -1,5 +1,7 @@
 <script setup>
-    
+    const props = defineProps({
+        name: String
+    })
 </script>
 
 <template>
@@ -10,7 +12,7 @@
             </div>
             <div id="preview">
                 <div id="name">
-                    <p>Trần Gia Huy</p>
+                    <p>{{ name }}</p>
                 </div>
                 <div id="message_preview">
                     <div id="message_content"><p>Tin nhắn thử nghiệm...</p></div>
