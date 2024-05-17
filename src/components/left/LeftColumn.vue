@@ -1,12 +1,14 @@
 <script setup>
     import ChatListBody from './ChatListBody.vue'
+    import ChatListBodySkeleton from './ChatListBodySkeleton.vue'
     import ChatListHeader from './ChatListHeader.vue'
 </script>
 
 <template>
     <div id="left">
         <ChatListHeader />
-        <ChatListBody />
+        <!-- <ChatListBody /> -->
+        <ChatListBodySkeleton />
     </div>
 </template>
 

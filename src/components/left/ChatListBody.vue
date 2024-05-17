@@ -1,10 +1,13 @@
 <script setup>
     import ChatListItem from './ChatListItem.vue'
     import axios from 'axios'
-    import { onMounted, ref } from 'vue'
+    import { onMounted, ref, watchEffect } from 'vue'
     import router from '../../router'
-    const conversations = ref([])
+    import { useRoute } from 'vue-router'
 
+    const route = useRoute()
+    const conversationId = ref(null)
+    const conversations = ref([])
     const getConversations = async () => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
         try {
@@ -26,6 +29,10 @@
     onMounted(() => {
         getConversations()
     })
+
+    watchEffect(() => {
+        conversationId.value = route.params.conversationId
+    })
 </script>
 
 <template>
@@ -33,6 +40,7 @@
         <ChatListItem
             v-for="conversation in conversations" 
             :name="conversation.name" 
+            :conversationId="conversation.id"
             @click="openConversation(conversation.id)" />
     </div>
 </template>

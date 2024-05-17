@@ -1,6 +1,24 @@
 <script setup>
+    import { ref, watchEffect } from 'vue'
+    import { useRoute } from 'vue-router'
+
+    const route = useRoute()
+    const clickedConversationId = ref(null)
+    const itemBgColor = ref('')
+
     const props = defineProps({
-        name: String
+        name: String,
+        conversationId: Number,
+    })
+
+    const currentCheck = () => {
+        itemBgColor.value = (parseInt(clickedConversationId.value) === props.conversationId) ? '#0A0F19' : ''
+    }
+
+    watchEffect(() => {
+        clickedConversationId.value = route.params.conversationId
+        currentCheck()
+        console.log(itemBgColor.value)
     })
 </script>
 
@@ -37,7 +55,11 @@
         cursor: pointer;
         padding: 1rem;
         border-radius: 1rem;
-        background-color: $baseColor;
+        background-color: v-bind(itemBgColor);
+
+        &:hover {
+            background-color: $baseColor;
+        }
 
         .chat_item {
             display: flex;
