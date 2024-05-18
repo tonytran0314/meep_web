@@ -58,7 +58,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: 0.5rem;
 
         /* Hide scrollbar for: */
         -ms-overflow-style: none;  /* IE and Edge */

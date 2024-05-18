@@ -26,6 +26,16 @@
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
+        overflow-x: hidden;
+        overflow-y: scroll;
+
+        /* Hide scrollbar for: */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
 
         .chat_item_skeleton {
             display: flex;
