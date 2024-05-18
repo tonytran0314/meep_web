@@ -66,7 +66,7 @@
             class="chat_row"
             :key="index"
             :class="{my_chat_row: message.senderId === currentUserID}">
-                <div class="chat_content">{{ message.content }}</div>    
+                <div class="chat_content"><p>{{ message.content }}</p></div>    
         </div>
     </div>
 </template>
