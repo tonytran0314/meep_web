@@ -1,7 +1,12 @@
 <script setup>
+    import CurrentChatProfileSkeleton from './CurrentChatProfileSkeleton.vue'
+
     import {useRoute} from 'vue-router'
 
     const route = useRoute()
+    const props = defineProps({
+        currentChatName: String
+    })
 </script>
 
 <template>
@@ -10,8 +15,9 @@
             <div id="current_chat_avatar">
                 <img src="/src/assets/images/huy.jpg" alt="avatar">
             </div>
-            <h5>{{ $route.params.conversationId }}</h5>
+            <h5>{{ props.currentChatName }}</h5>
         </div>
+        <!-- <CurrentChatProfileSkeleton /> -->
         <div id="call_methods">
             <div id="voice_call">
                 <img src="/src/assets/images/Phone_fill.png" alt="voice call">
@@ -29,7 +35,7 @@
 
     #chat_header {
         width: 100%;
-        height: 5rem;
+        min-height: 4rem;
         border-radius: 1rem;
         display: flex;
         justify-content: space-between;

@@ -18,7 +18,6 @@
     watchEffect(() => {
         clickedConversationId.value = route.params.conversationId
         currentCheck()
-        console.log(itemBgColor.value)
     })
 </script>
 

@@ -14,6 +14,8 @@
     const route = useRoute()
     const conversationId = ref(null)
 
+    const emit = defineEmits(['currentChatName'])
+
     const getMyId = async () => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
         try {
@@ -28,7 +30,8 @@
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
         try {
             const res = await axios.get('http://127.0.0.1:8000/api/v1/messages/' + conversationId.value)
-            fetchMessages(res.data.data)
+            emit('currentChatName', res.data.data.name[0])
+            fetchMessages(res.data.data.messages)
         } catch (error) {
             throw(error)
         }
@@ -49,7 +52,7 @@
     watchEffect(() => {
         // Echo.private('message').listen('MessgeEvent', e => {
         //     console.log(e)
-        // })
+        // }) 
         conversationId.value = route.params.conversationId
         getMyId()
         getMessages()

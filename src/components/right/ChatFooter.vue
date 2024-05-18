@@ -1,28 +1,32 @@
 <script setup>
-    import { ref } from 'vue'
+    import { ref, watch, watchEffect } from 'vue'
     import axios from 'axios'
     import { useRoute } from 'vue-router'
 
     const messageContent = ref('')
     const route = useRoute()
-    const conversationId = route.params.conversationId
+    const conversationId = ref(null)
 
     const sendMessage = async (event) => {
         event.preventDefault()
         
         const messageData = {
-            conversation_id: conversationId,
+            conversation_id: conversationId.value,
             content: messageContent.value,
         }
         
         messageContent.value = ''
-
+        console.log(messageData)
         try {
             await axios.post('http://127.0.0.1:8000/api/v1/add_message', messageData)
         } catch (error) {
             throw(error)
         }
     }
+
+    watchEffect(() => {
+        conversationId.value = route.params.conversationId
+    })
 </script>
 
 <template>
@@ -49,7 +53,7 @@
 
     #chat_footer {
         width: 100%;
-        height: 4rem;
+        min-height: 4rem;
         border-radius: 1rem;
         display: flex;
         gap: 1.5rem;

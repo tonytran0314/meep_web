@@ -7,8 +7,8 @@
 <template>
     <div id="left">
         <ChatListHeader />
-        <!-- <ChatListBody /> -->
-        <ChatListBodySkeleton />
+        <ChatListBody />
+        <!-- <ChatListBodySkeleton /> -->
     </div>
 </template>
 
