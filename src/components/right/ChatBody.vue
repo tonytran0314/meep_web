@@ -107,6 +107,7 @@
                 padding: 0.5rem 1rem;
                 border-radius: 1rem;
                 max-width: 70%;
+                overflow-wrap: break-word;
                 color: $white;
                 background-color: $secondaryButton;
             }

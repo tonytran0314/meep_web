@@ -17,7 +17,8 @@
     @import '/src/assets/variables';
 
     #right {
-        width: 100%;
+        width: calc(100% - 25rem);
+        max-width: calc(100% - 25rem);
         height: 100%;
         display: flex;
         flex-direction: column;
