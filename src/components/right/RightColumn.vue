@@ -2,12 +2,14 @@
     import ChatHeader from './ChatHeader.vue'
     import ChatBody from './ChatBody.vue'
     import ChatFooter from './ChatFooter.vue'
+    import ChatBodySkeleton from './ChatBodySkeleton.vue'
 </script>
 
 <template>
     <div id="right">
         <ChatHeader />
-        <ChatBody /> 
+        <!-- <ChatBody />  -->
+        <ChatBodySkeleton />
         <ChatFooter />
     </div>
 </template>
