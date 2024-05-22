@@ -2,13 +2,23 @@
     import ChatListBody from './ChatListBody.vue'
     import ChatListBodySkeleton from './ChatListBodySkeleton.vue'
     import ChatListHeader from './ChatListHeader.vue'
+
+    import { ref } from 'vue'
+
+    const showSkeleton = ref(true)
+
+    const hideSkeleton = () => {
+        showSkeleton.value = false
+    }
 </script>
 
 <template>
     <div id="left">
         <ChatListHeader />
-        <ChatListBody />
-        <!-- <ChatListBodySkeleton /> -->
+        <div>
+            <ChatListBody @gotListFromApi="hideSkeleton" />
+            <ChatListBodySkeleton v-show="showSkeleton" />
+        </div>
     </div>
 </template>
 

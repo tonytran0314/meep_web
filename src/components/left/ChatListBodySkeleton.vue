@@ -1,5 +1,5 @@
 <script setup>
-    const SKELETON_ITEMS = Array(5)
+    const SKELETON_ITEMS = Array(3)
 </script>
 
 <template>
@@ -43,7 +43,7 @@
             align-items: center;
             padding: 1rem;
             border-radius: 1rem;
-            background-color: $secondaryButton;
+            // background-color: $secondaryButton;
 
             .preview_skeleton {
                 display: flex;
