@@ -9,12 +9,12 @@
     const signupContainer = ref(null)
     const error = ref(null)
 
-    const fullname = reactive({
+    const username = reactive({
         'vmodel': '',
         'type': 'text',
-        'name': 'fullname',
-        'label': 'Full Name:',
-        'placeholder': 'Enter Full Name',
+        'name': 'username',
+        'label': 'Username:',
+        'placeholder': 'Enter Username',
         'error': null
     })
 
@@ -167,12 +167,12 @@
                     <div id="form_body">
                         <div class="row">
                             <InputField
-                                v-model="fullname.vmodel"
-                                :label="fullname.label"
-                                :name="fullname.name"
-                                :placeholder="fullname.placeholder"
-                                :type="fullname.type"
-                                :error="fullname.error" />
+                                v-model="username.vmodel"
+                                :label="username.label"
+                                :name="username.name"
+                                :placeholder="username.placeholder"
+                                :type="username.type"
+                                :error="username.error" />
                             <InputField
                                 v-model="email.vmodel"
                                 :label="email.label"
