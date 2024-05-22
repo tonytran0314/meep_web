@@ -2,22 +2,37 @@
     import CurrentChatProfileSkeleton from './CurrentChatProfileSkeleton.vue'
 
     import {useRoute} from 'vue-router'
+    import { watchEffect, ref } from 'vue'
 
     const route = useRoute()
+    const showSkeleton = ref(true)
     const props = defineProps({
         currentChatName: String
+    })
+
+    const checkChatName = () => {
+        // if get current chat name from the api, hide the skeleton
+        if (props.currentChatName) {
+            showSkeleton.value = false
+        }
+    }
+
+    watchEffect(() => {
+        checkChatName()
     })
 </script>
 
 <template>
     <div id="chat_header">
-        <div id="current_chat_avatar_name">
-            <div id="current_chat_avatar">
-                <img src="/src/assets/images/huy.jpg" alt="avatar">
+        <div>
+            <div id="current_chat_avatar_name">
+                <!-- <div id="current_chat_avatar">
+                    <img src="/src/assets/images/huy.jpg" alt="avatar">
+                </div> -->
+                <h5>{{ props.currentChatName }}</h5>
             </div>
-            <h5>{{ props.currentChatName }}</h5>
+        <CurrentChatProfileSkeleton v-show="showSkeleton" />
         </div>
-        <!-- <CurrentChatProfileSkeleton /> -->
         <div id="call_methods">
             <div id="voice_call">
                 <img src="/src/assets/images/Phone_fill.png" alt="voice call">

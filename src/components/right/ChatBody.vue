@@ -1,5 +1,7 @@
 <script setup>
 
+    import ChatBodySkeleton from './ChatBodySkeleton.vue'
+
     import axios from 'axios'
     import { onMounted, ref, watchEffect } from 'vue'
     import { useRoute } from 'vue-router'
@@ -13,6 +15,7 @@
     const messages = ref([])
     const route = useRoute()
     const conversationId = ref(null)
+    const showSkeleton = ref(true)
 
     const emit = defineEmits(['currentChatName'])
 
@@ -32,6 +35,7 @@
             const res = await axios.get('http://127.0.0.1:8000/api/v1/messages/' + conversationId.value)
             emit('currentChatName', res.data.data.name[0])
             fetchMessages(res.data.data.messages)
+            hideSkeleton()
         } catch (error) {
             throw(error)
         }
@@ -49,6 +53,10 @@
         messages.value.push(newMessage)
     }
 
+    const hideSkeleton = () => {
+        showSkeleton.value = false
+    }
+
     watchEffect(() => {
         // Echo.private('message').listen('MessgeEvent', e => {
         //     console.log(e)
@@ -63,7 +71,8 @@
 </script>
 
 <template>
-    <div id="chat_body">
+    <ChatBodySkeleton v-if="showSkeleton" />
+    <div v-else id="chat_body">
         <div 
             v-for="(message, index) in messages" 
             class="chat_row"

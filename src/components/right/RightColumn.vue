@@ -2,12 +2,10 @@
     import ChatHeader from './ChatHeader.vue'
     import ChatBody from './ChatBody.vue'
     import ChatFooter from './ChatFooter.vue'
-    import ChatBodySkeleton from './ChatBodySkeleton.vue'
 
     import { ref, watchEffect } from 'vue'
 
     const chatName = ref('')
-
     const handleChatName = (name) => {
         chatName.value = name
     }
@@ -20,8 +18,7 @@
 <template>
     <div id="right">
         <ChatHeader :currentChatName="chatName" />
-        <ChatBody @currentChatName="handleChatName" /> 
-        <!-- <ChatBodySkeleton /> -->
+        <ChatBody @currentChatName="handleChatName"/> 
         <ChatFooter />
     </div>
 </template>
