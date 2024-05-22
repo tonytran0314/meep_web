@@ -29,13 +29,21 @@
             <img @click="showSettingMenu" src="/src/assets/images/huy.jpg" alt="my avatar">
             <div id="setting_menu">
                 <ul>
-                    <li>Settings</li>
-                    <li @click="logout">Logout</li>
+                    <li>
+                        <font-awesome-icon :icon="['fas', 'user']" />
+                        <p>Profile</p>
+                    </li>
+                    <li @click="logout">
+                        <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
+                        <p>Logout</p>
+                    </li>
                 </ul>
             </div>
         </div>
         <div id="search">
-            <img src="/src/assets/images/search.png" alt="search icon">
+            <font-awesome-icon 
+                :icon="['fas', 'magnifying-glass']"
+                style="color: #5D6E7F;" />
             <input type="text" placeholder="Searching">
         </div>
     </div>
@@ -75,6 +83,15 @@
                     li {
                         list-style: none;
                         cursor: pointer;
+                        padding: 0.5rem 1.5rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        border-radius: .5rem;
+
+                        &:hover {
+                            background-color: $boxColor;
+                        }
                     }
                 }
             }
@@ -101,6 +118,7 @@
                 padding-right: 1rem; 
                 border-top-right-radius: 1.5rem;
                 border-bottom-right-radius: 1.5rem;
+                @include text();
                 color: $white;
                 background-color: $baseColor;
 
