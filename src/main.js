@@ -7,6 +7,7 @@ import "vue-toastification/dist/index.css"
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/md-dark-indigo/theme.css'
 import Skeleton from 'primevue/skeleton'
+import Dialog from 'primevue/dialog'
 
 import router from './router'
 
@@ -31,4 +32,5 @@ app.use(router)
 app.use(Toast)
 app.use(PrimeVue)
 app.component('Skeleton', Skeleton)
+app.component('Dialog', Dialog)
 app.mount('#app')

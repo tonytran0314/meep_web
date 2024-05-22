@@ -1,15 +1,24 @@
 <script setup>
+
+    import ProfileModal from './ProfileModal.vue'
+
     import router from '../../router'
     import axios from 'axios'
     import { ref } from 'vue'
 
     const showSettings = ref(false)
     const settingsDisplay = ref('none')
+    const visible = ref(false)
 
-    const showSettingMenu = () => {
+    const toggleSettingMenu = () => {
         showSettings.value = !showSettings.value
 
         settingsDisplay.value = showSettings.value ? 'block' : 'none'
+    }
+
+    const openProfile = () => {
+        toggleSettingMenu()
+        visible.value = true
     }
 
     const logout = async () => {
@@ -26,10 +35,10 @@
 <template>
     <div id="chat_list_header">
         <div id="avatar">
-            <img @click="showSettingMenu" src="/src/assets/images/huy.jpg" alt="my avatar">
+            <img @click="toggleSettingMenu" src="/src/assets/images/huy.jpg" alt="my avatar">
             <div id="setting_menu">
                 <ul>
-                    <li>
+                    <li @click="openProfile">
                         <font-awesome-icon :icon="['fas', 'user']" />
                         <p>Profile</p>
                     </li>
@@ -46,6 +55,7 @@
                 style="color: #5D6E7F;" />
             <input type="text" placeholder="Searching">
         </div>
+        <ProfileModal v-model:visible="visible"  />
     </div>
 </template>
 
@@ -83,7 +93,7 @@
                     li {
                         list-style: none;
                         cursor: pointer;
-                        padding: 0.5rem 1.5rem;
+                        padding: 0.5rem 1.5rem 0.5rem 1rem;
                         display: flex;
                         align-items: center;
                         gap: 1rem;
