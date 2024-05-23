@@ -20,8 +20,16 @@
         }
     }
 
+    const displayNameCheck = async () => {
+        const res = await axios.get('http://127.0.0.1:8000/api/v1/my_profile')
+        if(res.data.data.displayName === null) {
+            router.push('/create_display_name')
+        }
+    }
+
     onMounted(() => {
         loginCheck()
+        displayNameCheck()
     })
 </script>
 
