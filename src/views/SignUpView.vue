@@ -48,15 +48,15 @@
     const signupProcess = (event) => {
         event.preventDefault()
 
-        fullname.error = fullnameValidation(fullname.vmodel)
+        username.error = usernameValidation(username.vmodel)
         email.error = emailValidation(email.vmodel)
         password.error = passwordValidation(password.vmodel, confirmPassword.vmodel)
 
-        if( fullname.error === null && 
+        if( username.error === null && 
             email.error === null && 
             password.error === null) {
                 const signupInput = {
-                    name: fullname.vmodel,
+                    username: username.vmodel,
                     email: email.vmodel,
                     password: password.vmodel,
                     password_confirmation: confirmPassword.vmodel
@@ -82,17 +82,17 @@
         error.value = errorMessage
     }
 
-    const fullnameValidation = (fullname) => {
+    const usernameValidation = (username) => {
         
-        const fullnameRules = /^[a-zA-Z0-9_!@#$%]+$/
+        const usernameRules = /^[a-zA-Z0-9_!@#$%]+$/
         
         let message = null
 
         // check if empty 
-        if(isEmpty(fullname)) { return 'The full name cannot be empty' }
+        if(isEmpty(username)) { return 'The full name cannot be empty' }
 
         // check if contains invalid characters
-        if(invalidChars(fullname, fullnameRules)) { return 'The full name is invalid' }
+        if(invalidChars(username, usernameRules)) { return 'The full name is invalid' }
 
         return message
     }
