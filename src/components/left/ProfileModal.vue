@@ -1,24 +1,126 @@
 <script setup>
     import { onClickOutside } from '@vueuse/core'
-    import { ref } from 'vue'
+    import { ref, reactive, onMounted } from 'vue'
     import { useToast } from "vue-toastification"
+    import axios from 'axios'
 
     const toast = useToast()
     const modal = ref(null)
     const emit = defineEmits(['closeModalClick'])
 
+    const displayName = reactive({
+        'vmodel': null,
+        'error': null
+    })
+    const email = reactive({
+        'vmodel': null,
+        'error': null
+    })
+
+    const username = ref(null)
+
     onClickOutside(modal, () => {
         closeModal()
     })
 
+    const getProfile = async () => {
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/my_profile')
+            assignDisplayName(res.data.data.displayName)
+            assignEmail(res.data.data.email)
+            assignUsername(res.data.data.username + '#' + res.data.data.identifyNumber)
+        } catch (error) {
+            if (error.response) {
+                catchError(error)
+            }
+        }
+    }
+
+    const assignDisplayName = (display_name) => {
+        displayName.vmodel = display_name
+    }
+
+    const assignEmail = (email_address) => {
+        email.vmodel = email_address
+    }
+
+    const assignUsername = (user_name) => {
+        username.value = user_name
+    }
+
     const closeModal = () => {
         emit('closeModalClick')
+    }
+
+    const closeModalWithEvent = (event) => {
+        event.preventDefault()
+        closeModal()
     }
 
     const copyUsername = (username) => {
         navigator.clipboard.writeText(username)
         toast.success('Copied Username Successfully')
     }
+    
+    const saveProfile = (event) => {
+        event.preventDefault()
+
+        displayName.error = displayNameValidation(displayName.vmodel)
+        email.error = emailValidation(email.vmodel)
+
+        if( displayName.error === null && email.error === null) {
+                const updatedProfile = {
+                    display_name: displayName.vmodel,
+                    email: email.vmodel
+                }
+                sendRequest(updatedProfile)
+        }
+    }
+
+    const sendRequest = async (updatedProfile) => {
+        try {
+            await axios.post('http://127.0.0.1:8000/api/v1/update_profile', updatedProfile)
+            closeModal()
+            toast.success('Updated Profile Successfully')
+        } catch (error) {
+            if (error.response) {
+                catchError(error.response.data.message)
+            }
+        }
+    }
+    
+    // re-usable
+    // allow Vietnamese
+    const displayNameValidation = (displayName) => {
+        
+        const displayNameRules = /^[a-zA-Z0-9_-\s]+$/
+        
+        let message = null
+
+        if(isEmpty(displayName)) { return 'The display name cannot be empty' }
+        if(invalidChars(displayName, displayNameRules)) { return 'The display name is invalid' }
+
+        return message
+    }
+    
+    const emailValidation = (email) => {
+        //eslint-disable-next-line
+        const emailRules = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
+        let message = null
+
+        if(isEmpty(email)) { return 'The email cannot be empty' }
+        if(invalidChars(email, emailRules)) { return 'The email is invalid' }
+
+        return message
+    }
+
+    const isEmpty = (string) => (string === '' || string === null)
+    const invalidChars = (string, rules) => !string.match(rules)
+
+    onMounted(() => {
+        getProfile()
+    })
 </script>
 
 <template>
@@ -35,25 +137,33 @@
                         </div>
                         <div id="user_info">
                             <div class="field" id="username_field">
-                                <label>Username:</label>
-                                <input type="text" value="user1#3847" disabled>
-                                <span @click="copyUsername('user1#3847')"><font-awesome-icon :icon="['fas', 'copy']" /></span>
+                                <div class="content">
+                                    <label>Username:</label>
+                                    <input type="text" :value="username" disabled>
+                                    <span @click="copyUsername(username)"><font-awesome-icon :icon="['fas', 'copy']" /></span>
+                                </div>
                             </div>
                             <div class="field" id="display_name_field">
-                                <label for="display_name">Display Name:</label>
-                                <input type="text" name="display_name" id="display_name" value="User 1">
+                                <div class="content">
+                                    <label for="display_name">Display Name:</label>
+                                    <input v-model="displayName.vmodel" type="text" name="display_name" id="display_name" value="User 1">
+                                </div>
+                                <span class="error">{{ displayName.error }}</span>
                             </div>
                             <div class="field" id="email_field">
-                                <label for="email">Email:</label>
-                                <input type="text" name="email" id="email" value="email@example.com">
+                                <div class="content">
+                                    <label for="email">Email:</label>
+                                    <input v-model="email.vmodel" type="text" name="email" id="email" value="email@example.com">
+                                </div>
+                                <span class="error">{{ email.error }}</span>
                             </div>
                             <!-- Password (change password feature) -->
                         </div>
                     </div>
                     
                     <div id="actions">
-                        <button id="cancel_button">Cancel</button>
-                        <button id="save_button">Save</button>
+                        <button @click="closeModalWithEvent" id="cancel_button">Cancel</button>
+                        <button @click="saveProfile" id="save_button">Save</button>
                     </div>
                 </form>
             </div>
@@ -139,19 +249,29 @@
                                 outline: none;
                             }
                         }
+                        
+                        .error {
+                            color: $red;
+                        }
 
                         .field {
                             display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            gap: 1.5rem;
-                            position: relative;
+                            flex-direction: column;
 
-                            span {
-                                position: absolute;
-                                right: 1rem;
-                                cursor: pointer;
+                            .content {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                gap: 1.5rem;
+                                position: relative;
+
+                                span {
+                                    position: absolute;
+                                    right: 1rem;
+                                    cursor: pointer;
+                                }
                             }
+
                         }
                     }
                 }
