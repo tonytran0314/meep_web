@@ -1,10 +1,6 @@
 <script setup>
 
     const props = defineProps({
-        label: {
-            type: String,
-            required: true,
-        },
         name: {
             type: String,
             required: true,
@@ -36,7 +32,6 @@
 <template>
     <div class="field">
         <div class="field_body">
-            <label :for="props.name">{{ props.label }}</label>
             <input 
                 @input="updateModelValue"
                 :value="props.modelValue"

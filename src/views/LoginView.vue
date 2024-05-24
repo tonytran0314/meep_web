@@ -50,9 +50,7 @@
         try {
             const res = await axios.post('http://127.0.0.1:8000/api/v1/login', loginInput)
 
-            if (res.data.data.user.displayName === null) { directToCreateDisplayName() } 
-            else { directToHome()}
-
+            directToHome()
             saveToken(res.data.data.token)
         } catch (error) {
             if (error.response) {
@@ -68,10 +66,6 @@
     
     const directToHome = () => {
         router.push('/chat')
-    }
-
-    const directToCreateDisplayName = () => {
-        router.push('/create_display_name')
     }
 
     // USE REFRESH-TOKEN INSTEAD

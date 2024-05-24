@@ -13,7 +13,6 @@
         'vmodel': '',
         'type': 'text',
         'name': 'username',
-        'label': 'Username:',
         'placeholder': 'Enter Username',
         'error': null
     })
@@ -22,8 +21,15 @@
         'vmodel': '',
         'type': 'text',
         'name': 'email',
-        'label': 'Email',
         'placeholder': 'Enter Email',
+        'error': null
+    })
+
+    const displayName = reactive({
+        'vmodel': '',
+        'type': 'text',
+        'name': 'display_name',
+        'placeholder': 'Enter Display Name',
         'error': null
     })
 
@@ -31,7 +37,6 @@
         'vmodel': '',
         'type': 'password',
         'name': 'password',
-        'label': 'Password',
         'placeholder': 'Enter Password',
         'error': null
     })
@@ -40,7 +45,6 @@
         'vmodel': '',
         'type': 'password',
         'name': 'password_confirmation',
-        'label': 'Confirm Password',
         'placeholder': 'Enter Password again',
         'error': null
     })
@@ -49,15 +53,18 @@
         event.preventDefault()
 
         username.error = usernameValidation(username.vmodel)
+        displayName.error = displayNameValidation(displayName.vmodel)
         email.error = emailValidation(email.vmodel)
         password.error = passwordValidation(password.vmodel, confirmPassword.vmodel)
 
         if( username.error === null && 
             email.error === null && 
-            password.error === null) {
+            password.error === null &&
+            displayName.error === null) {
                 const signupInput = {
                     username: username.vmodel,
                     email: email.vmodel,
+                    display_name: displayName.vmodel,
                     password: password.vmodel,
                     password_confirmation: confirmPassword.vmodel
                 }
@@ -93,6 +100,21 @@
 
         // check if contains invalid characters
         if(invalidChars(username, usernameRules)) { return 'The full name is invalid' }
+
+        return message
+    }
+
+    const displayNameValidation = (displayName) => {
+        
+        const displayNameRules = /^[a-zA-Z0-9_-\s]+$/
+        
+        let message = null
+
+        // check if empty 
+        if(isEmpty(displayName)) { return 'The display name cannot be empty' }
+
+        // check if contains invalid characters
+        if(invalidChars(displayName, displayNameRules)) { return 'The display name is invalid' }
 
         return message
     }
@@ -180,6 +202,15 @@
                                 :placeholder="email.placeholder"
                                 :type="email.type"
                                 :error="email.error" />
+                        </div>
+                        <div class="row">
+                            <InputField
+                                v-model="displayName.vmodel"
+                                :label="displayName.label"
+                                :name="displayName.name"
+                                :placeholder="displayName.placeholder"
+                                :type="displayName.type"
+                                :error="displayName.error" />
                         </div>
                         <div class="row">
                             <InputField
