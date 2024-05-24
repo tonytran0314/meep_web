@@ -8,7 +8,7 @@
 
     const showSettings = ref(false)
     const settingsDisplay = ref('none')
-    const visible = ref(false)
+    const isModalOpen = ref(false)
 
     const toggleSettingMenu = () => {
         showSettings.value = !showSettings.value
@@ -18,7 +18,11 @@
 
     const openProfile = () => {
         toggleSettingMenu()
-        visible.value = true
+        isModalOpen.value = true
+    }
+
+    const closeModal = () => {
+        isModalOpen.value = false
     }
 
     const logout = async () => {
@@ -55,7 +59,7 @@
                 style="color: #5D6E7F;" />
             <input type="text" placeholder="Searching">
         </div>
-        <ProfileModal v-model:visible="visible"  />
+        <ProfileModal v-show="isModalOpen" @closeModalClick="closeModal" />
     </div>
 </template>
 
