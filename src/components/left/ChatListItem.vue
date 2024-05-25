@@ -9,6 +9,7 @@
     const props = defineProps({
         name: String,
         conversationId: Number,
+        avatar: String
     })
 
     const currentCheck = () => {
@@ -25,7 +26,7 @@
     <div class="chat_list_item">
         <div class="chat_item">
             <div id="item_avatar">
-                <img src="/src/assets/images/huy.jpg" alt="avatar">
+                <img :src="avatar" alt="avatar">
             </div>
             <div id="preview">
                 <div id="name">

@@ -4,11 +4,12 @@
 
     import router from '../../router'
     import axios from 'axios'
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
 
     const showSettings = ref(false)
     const settingsDisplay = ref('none')
     const isModalOpen = ref(false)
+    const avatar = ref(null)
 
     const toggleSettingMenu = () => {
         showSettings.value = !showSettings.value
@@ -25,6 +26,24 @@
         isModalOpen.value = false
     }
 
+    const getAvatar = async () => {
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/my_profile')
+            assignAvatar(res.data.data.avatar)
+        } catch (error) {
+            if (error.response) {
+                catchError(error)
+            }
+        }
+    }
+
+    const assignAvatar = (avatarUrl) => {
+        const domain = import.meta.env.VITE_API_DOMAIN
+        const port = import.meta.env.VITE_API_PORT
+        const url = domain + ':' + port
+        avatar.value = url + avatarUrl
+    } 
+
     const logout = async () => {
         try {
             localStorage.removeItem('api_token')                        // remove localStorage item
@@ -34,17 +53,25 @@
             console.log(error)
         }
     }
+
+    onMounted(() => {
+        getAvatar()
+    })
 </script>
 
 <template>
     <div id="chat_list_header">
         <div id="avatar">
-            <img @click="toggleSettingMenu" src="/src/assets/images/huy.jpg" alt="my avatar">
+            <img @click="toggleSettingMenu" :src="avatar" alt="my avatar">
             <div id="setting_menu">
                 <ul>
                     <li @click="openProfile">
                         <font-awesome-icon :icon="['fas', 'user']" />
                         <p>Profile</p>
+                    </li>
+                    <li>
+                        <font-awesome-icon :icon="['fas', 'user']" />
+                        <p>Friends</p>
                     </li>
                     <li @click="logout">
                         <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
@@ -57,7 +84,7 @@
             <font-awesome-icon 
                 :icon="['fas', 'magnifying-glass']"
                 style="color: #5D6E7F;" />
-            <input type="text" placeholder="Searching">
+            <input type="text" placeholder="Searching (ex: username#0000)">
         </div>
         <ProfileModal v-show="isModalOpen" @closeModalClick="closeModal" />
     </div>

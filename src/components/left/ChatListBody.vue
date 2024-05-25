@@ -29,6 +29,14 @@
         router.push('/chat/' + id)
     }
 
+    const avatarUrl = (avatar) => {
+        const domain = import.meta.env.VITE_API_DOMAIN
+        const port = import.meta.env.VITE_API_PORT
+        const url = domain + ':' + port
+        
+        return url + avatar
+    }
+
     onMounted(() => {
         getConversations()
     })
@@ -44,6 +52,7 @@
             v-for="conversation in conversations" 
             :name="conversation.name" 
             :conversationId="conversation.id"
+            :avatar="avatarUrl(conversation.avatar)"
             @click="openConversation(conversation.id)" />
     </div>
 </template>

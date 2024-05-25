@@ -18,6 +18,7 @@
     })
 
     const username = ref(null)
+    const avatar = ref(null)
 
     onClickOutside(modal, () => {
         closeModal()
@@ -29,6 +30,7 @@
             assignDisplayName(res.data.data.displayName)
             assignEmail(res.data.data.email)
             assignUsername(res.data.data.username + '#' + res.data.data.identifyNumber)
+            assignAvatar(res.data.data.avatar)
         } catch (error) {
             if (error.response) {
                 catchError(error)
@@ -47,6 +49,13 @@
     const assignUsername = (user_name) => {
         username.value = user_name
     }
+
+    const assignAvatar = (avatarUrl) => {
+        const domain = import.meta.env.VITE_API_DOMAIN
+        const port = import.meta.env.VITE_API_PORT
+        const url = domain + ':' + port
+        avatar.value = url + avatarUrl
+    } 
 
     const closeModal = () => {
         emit('closeModalClick')
@@ -133,7 +142,7 @@
                     <h3>Profile</h3>
                     <div id="form_body">
                         <div id="avatar">
-                            <img src="/src/assets/images/huy.jpg" alt="avatar">
+                            <img :src="avatar" alt="avatar">
                         </div>
                         <div id="user_info">
                             <div class="field" id="username_field">
@@ -228,7 +237,12 @@
                     justify-content: center;
 
                     #avatar {
+                        width: 16rem;
+                        height: 16rem;
+
                         img {
+                            width: inherit;
+                            height: inherit;
                             border-radius: 50%;
                         }
                     }
