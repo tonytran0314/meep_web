@@ -1,6 +1,4 @@
 <script setup>
-    import CurrentChatProfileSkeleton from './CurrentChatProfileSkeleton.vue'
-
     import {useRoute} from 'vue-router'
     import { watchEffect, ref } from 'vue'
 
@@ -24,14 +22,11 @@
 
 <template>
     <div id="chat_header">
-        <div>
-            <div id="current_chat_avatar_name">
-                <!-- <div id="current_chat_avatar">
-                    <img src="/src/assets/images/huy.jpg" alt="avatar">
-                </div> -->
-                <h5>{{ props.currentChatName }}</h5>
+        <div id="current_chat_avatar_name">
+            <div id="current_chat_avatar">
+                <img src="/src/assets/images/huy.jpg" alt="avatar">
             </div>
-        <CurrentChatProfileSkeleton v-show="showSkeleton" />
+            <h5>{{ props.currentChatName }}</h5>
         </div>
         <div id="call_methods">
             <div id="voice_call">

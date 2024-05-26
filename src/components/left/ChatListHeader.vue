@@ -3,7 +3,6 @@
     import ProfileModal from './modals/ProfileModal.vue'
     import LogoutModal from './modals/LogoutModal.vue'
 
-    import router from '../../router'
     import axios from 'axios'
     import { ref, onMounted } from 'vue'
 
@@ -12,6 +11,7 @@
     const isProfileModalOpen = ref(false)
     const isLogoutModalOpen = ref(false)
     const avatar = ref(null)
+    const emit = defineEmits(['gotAvatar'])
 
     const toggleSettingMenu = () => {
         showSettings.value = !showSettings.value
@@ -41,6 +41,7 @@
         try {
             const res = await axios.get('http://127.0.0.1:8000/api/v1/my_profile')
             assignAvatar(res.data.data.avatar)
+            emit('gotAvatar')
         } catch (error) {
             if (error.response) {
                 catchError(error)

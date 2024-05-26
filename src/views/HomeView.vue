@@ -4,7 +4,13 @@
 
     import router from '../router'
     import axios from 'axios'
-    import { onMounted } from 'vue'
+    import { onMounted, ref } from 'vue'
+
+    const chatRoom = ref(false)
+
+    const showChatRoom = () => {
+        chatRoom.value = true
+    }
 
     const assignHeader = (token) => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
@@ -28,8 +34,8 @@
 <template>
     <div class="background">
         <div id="container">
-            <LeftColumn />
-            <RightColumn />
+            <LeftColumn @gotAllDataFromApi="showChatRoom" />
+            <RightColumn v-show="chatRoom" />
         </div>
     </div>
 </template>

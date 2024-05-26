@@ -1,25 +1,30 @@
 <script setup>
-    import ChatListBody from './ChatListBody.vue'
-    import ChatListBodySkeleton from './ChatListBodySkeleton.vue'
     import ChatListHeader from './ChatListHeader.vue'
+    import ChatListBody from './ChatListBody.vue'
+    import LeftColumnSkeleton from './LeftColumnSkeleton.vue'
 
     import { ref } from 'vue'
 
     const showSkeleton = ref(true)
+    const dataLoaded = ref(0)
+    const emit = defineEmits(['gotAllDataFromApi'])
 
     const hideSkeleton = () => {
-        showSkeleton.value = false
+        // chat-gpt chỉ cái này quá tà đạo :)
+        dataLoaded.value += 1
+        if(dataLoaded.value === 2) {
+            showSkeleton.value = false
+            emit('gotAllDataFromApi')
+        }
     }
 </script>
 
 <template>
-    <div id="left">
-        <ChatListHeader />
-        <div>
-            <ChatListBody @gotListFromApi="hideSkeleton" />
-            <ChatListBodySkeleton v-show="showSkeleton" />
-        </div>
+    <div id="left" v-show="!showSkeleton">
+        <ChatListHeader @gotAvatar="hideSkeleton" />
+        <ChatListBody @gotListFromApi="hideSkeleton" />
     </div>
+    <LeftColumnSkeleton v-show="showSkeleton" />
 </template>
 
 <style lang="scss" scoped>

@@ -1,7 +1,4 @@
 <script setup>
-
-    import ChatBodySkeleton from './ChatBodySkeleton.vue'
-
     import axios from 'axios'
     import { onMounted, ref, watchEffect } from 'vue'
     import { useRoute } from 'vue-router'
@@ -71,8 +68,7 @@
 </script>
 
 <template>
-    <ChatBodySkeleton v-if="showSkeleton" />
-    <div v-else id="chat_body">
+    <div id="chat_body">
         <div 
             v-for="(message, index) in messages" 
             class="chat_row"
