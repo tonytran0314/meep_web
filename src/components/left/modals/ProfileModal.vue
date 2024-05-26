@@ -94,6 +94,7 @@
             await axios.post('http://127.0.0.1:8000/api/v1/update_profile', updatedProfile)
             closeModal()
             toast.success('Updated Profile Successfully')
+            loading.value = false
         } catch (error) {
             if (error.response) {
                 catchError(error.response.data.message)
