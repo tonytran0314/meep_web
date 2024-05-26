@@ -90,7 +90,7 @@
     #chat_body {
         width: 100%;
         height: 100%;
-        border-radius: 1rem;
+        // border-radius: 1rem;
         padding: 1.5rem;
         overflow-x: hidden;
         overflow-y: scroll;

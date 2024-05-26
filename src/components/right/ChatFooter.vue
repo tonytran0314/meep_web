@@ -53,7 +53,8 @@
     #chat_footer {
         width: 100%;
         min-height: 4rem;
-        border-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
         display: flex;
         gap: 1.5rem;
         padding: 0 1.5rem;

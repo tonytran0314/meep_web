@@ -33,7 +33,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        // gap: 0.75rem;
     }
 
 </style>

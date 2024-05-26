@@ -51,7 +51,8 @@
     #chat_header {
         width: 100%;
         min-height: 4rem;
-        border-radius: 1rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
