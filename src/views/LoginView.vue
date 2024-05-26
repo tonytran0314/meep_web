@@ -4,6 +4,7 @@
     import router from '../router'
     import { useToast } from "vue-toastification"
     import InputField from '/src/components/InputField.vue'
+    import Spinner from '../components/Spinner.vue'
 
 
     const toast = useToast()
@@ -12,6 +13,7 @@
     const padding = ref('0')
     const loginContainer = ref(null)
     const error = ref(null)
+    const loading = ref(false)
 
     const email = reactive({
         'vmodel': '',
@@ -42,6 +44,7 @@
                 email: email.vmodel,
                 password: password.vmodel
             }
+            loading.value = true
             sendRequest(loginInput)
         }
     }
@@ -162,7 +165,10 @@
                             :error="password.error" />
                     </div>
                     <span class="error">{{ error }}</span>
-                    <button type="submit" @click="loginProcess">LOG IN</button>
+                    <button type="submit" @click="loginProcess">
+                        <Spinner v-if="loading" />
+                        <span v-else>LOG IN</span>
+                    </button>
                     <router-link to="/signup" id="switching_form">Create Account</router-link>
                 </form>
                 <span>or</span>

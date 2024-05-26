@@ -3,8 +3,10 @@
     import { ref } from 'vue'
     import axios from 'axios'
     import router from '../../../router'
+    import Spinner from '../../Spinner.vue'
     
     const modal = ref(null)
+    const loading = ref(false)
     const emit = defineEmits(['closeModalClick'])
     
     const closeModal = () => {
@@ -18,6 +20,7 @@
 
     const logout = async () => {
         try {
+            loading.value = true
             localStorage.removeItem('api_token')                        // remove localStorage item
             await axios.post('http://127.0.0.1:8000/api/v1/logout')     // send post request to server to delete user token
             router.push('/login')                                       // redirect to login
@@ -44,7 +47,10 @@
                     
                     <div id="actions">
                         <button @click="closeModalWithEvent" id="cancel_button">Cancel</button>
-                        <button @click="logout" id="logout_button">Logout</button>
+                        <button @click="logout" id="logout_button">
+                            <Spinner v-if="loading" />
+                            <span v-else>Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>

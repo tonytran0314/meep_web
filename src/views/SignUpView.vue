@@ -3,11 +3,13 @@
     import axios from 'axios'
     import router from '../router'
     import InputField from '/src/components/InputField.vue'
+    import Spinner from '../components/Spinner.vue'
 
     const screenHeight = ref('100vh')
     const padding = ref('0')
     const signupContainer = ref(null)
     const error = ref(null)
+    const loading = ref(false)
 
     const username = reactive({
         'vmodel': '',
@@ -68,6 +70,7 @@
                     password: password.vmodel,
                     password_confirmation: confirmPassword.vmodel
                 }
+                loading.value = true
                 sendRequest(signupInput)
         }
     }
@@ -230,7 +233,10 @@
                         </div>
                     </div>
                     <span class="error">{{ error }}</span>
-                    <button type="submit" @click="signupProcess">SIGN UP</button>
+                    <button type="submit" @click="signupProcess">
+                        <Spinner v-if="loading" />
+                        <span v-else>SIGN UP</span>
+                    </button>
                     <router-link to="/login" id="switching_form">Already have account? Login</router-link>
                 </form>
                 <span>or</span>

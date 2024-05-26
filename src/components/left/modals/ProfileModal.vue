@@ -3,9 +3,11 @@
     import { ref, reactive, onMounted } from 'vue'
     import { useToast } from "vue-toastification"
     import axios from 'axios'
+    import Spinner from '../../Spinner.vue'
 
     const toast = useToast()
     const modal = ref(null)
+    const loading = ref(false)
     const emit = defineEmits(['closeModalClick'])
 
     const displayName = reactive({
@@ -82,6 +84,7 @@
                     display_name: displayName.vmodel,
                     email: email.vmodel
                 }
+                loading.value = true
                 sendRequest(updatedProfile)
         }
     }
@@ -172,7 +175,10 @@
                     
                     <div id="actions">
                         <button @click="closeModalWithEvent" id="cancel_button">Cancel</button>
-                        <button @click="saveProfile" id="save_button">Save</button>
+                        <button @click="saveProfile" id="save_button">
+                            <Spinner v-if="loading" />
+                            <span v-else>Save</span>
+                        </button>
                     </div>
                 </form>
             </div>
