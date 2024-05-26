@@ -1,6 +1,7 @@
 <script setup>
 
-    import ProfileModal from './ProfileModal.vue'
+    import ProfileModal from './modals/ProfileModal.vue'
+    import LogoutModal from './modals/LogoutModal.vue'
 
     import router from '../../router'
     import axios from 'axios'
@@ -8,7 +9,8 @@
 
     const showSettings = ref(false)
     const settingsDisplay = ref('none')
-    const isModalOpen = ref(false)
+    const isProfileModalOpen = ref(false)
+    const isLogoutModalOpen = ref(false)
     const avatar = ref(null)
 
     const toggleSettingMenu = () => {
@@ -19,11 +21,20 @@
 
     const openProfile = () => {
         toggleSettingMenu()
-        isModalOpen.value = true
+        isProfileModalOpen.value = true
     }
 
-    const closeModal = () => {
-        isModalOpen.value = false
+    const closeProfile = () => {
+        isProfileModalOpen.value = false
+    }
+
+    const openLogoutConfirm = () => {
+        toggleSettingMenu()
+        isLogoutModalOpen.value = true
+    }
+
+    const closeLogoutConfirm = () => {
+        isLogoutModalOpen.value = false
     }
 
     const getAvatar = async () => {
@@ -44,16 +55,6 @@
         avatar.value = url + avatarUrl
     } 
 
-    const logout = async () => {
-        try {
-            localStorage.removeItem('api_token')                        // remove localStorage item
-            await axios.post('http://127.0.0.1:8000/api/v1/logout')     // send post request to server to delete user token
-            router.push('/login')                                       // redirect to login
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     onMounted(() => {
         getAvatar()
     })
@@ -73,7 +74,7 @@
                         <font-awesome-icon :icon="['fas', 'user']" />
                         <p>Friends</p>
                     </li>
-                    <li @click="logout">
+                    <li @click="openLogoutConfirm">
                         <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
                         <p>Logout</p>
                     </li>
@@ -86,7 +87,8 @@
                 style="color: #5D6E7F;" />
             <input type="text" placeholder="Searching (ex: username#0000)">
         </div>
-        <ProfileModal v-show="isModalOpen" @closeModalClick="closeModal" />
+        <ProfileModal v-show="isProfileModalOpen" @closeModalClick="closeProfile" />
+        <LogoutModal v-show="isLogoutModalOpen" @closeModalClick="closeLogoutConfirm" />
     </div>
 </template>
 
