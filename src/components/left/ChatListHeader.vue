@@ -86,7 +86,7 @@
             <font-awesome-icon 
                 :icon="['fas', 'magnifying-glass']"
                 style="color: #5D6E7F;" />
-            <input type="text" placeholder="Searching (ex: username#0000)">
+            <input type="text" placeholder="Searching username#0000">
         </div>
         <ProfileModal v-show="isProfileModalOpen" @closeModalClick="closeProfile" />
         <LogoutModal v-show="isLogoutModalOpen" @closeModalClick="closeLogoutConfirm" />
