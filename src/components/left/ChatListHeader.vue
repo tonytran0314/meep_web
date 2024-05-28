@@ -2,6 +2,7 @@
 
     import ProfileModal from './modals/ProfileModal.vue'
     import LogoutModal from './modals/LogoutModal.vue'
+    import FriendsModal from './modals/FriendsModal.vue'
 
     import axios from 'axios'
     import { ref, onMounted } from 'vue'
@@ -9,6 +10,7 @@
     const showSettings = ref(false)
     const settingsDisplay = ref('none')
     const isProfileModalOpen = ref(false)
+    const isFriendsModalOpen = ref(false)
     const isLogoutModalOpen = ref(false)
     const avatar = ref(null)
     const emit = defineEmits(['gotAvatar'])
@@ -35,6 +37,15 @@
 
     const closeLogoutConfirm = () => {
         isLogoutModalOpen.value = false
+    }
+
+    const openFriends = () => {
+        toggleSettingMenu()
+        isFriendsModalOpen.value = true
+    }
+
+    const closeFriends = () => {
+        isFriendsModalOpen.value = false
     }
 
     const getAvatar = async () => {
@@ -71,8 +82,8 @@
                         <font-awesome-icon :icon="['fas', 'user']" />
                         <p>Profile</p>
                     </li>
-                    <li>
-                        <font-awesome-icon :icon="['fas', 'user']" />
+                    <li @click="openFriends">
+                        <font-awesome-icon :icon="['fas', 'user-group']" />
                         <p>Friends</p>
                     </li>
                     <li @click="openLogoutConfirm">
@@ -82,14 +93,9 @@
                 </ul>
             </div>
         </div>
-        <div id="search">
-            <font-awesome-icon 
-                :icon="['fas', 'magnifying-glass']"
-                style="color: #5D6E7F;" />
-            <input type="text" placeholder="Searching username#0000">
-        </div>
         <ProfileModal v-show="isProfileModalOpen" @closeModalClick="closeProfile" />
         <LogoutModal v-show="isLogoutModalOpen" @closeModalClick="closeLogoutConfirm" />
+        <FriendsModal v-show="isFriendsModalOpen" @closeModalClick="closeFriends" />
     </div>
 </template>
 
@@ -98,9 +104,6 @@
     @import '/src/assets/variables';
 
     #chat_list_header {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
         padding: 0 1rem;
 
         #avatar {
@@ -137,42 +140,6 @@
                             background-color: $boxColor;
                         }
                     }
-                }
-            }
-        }
-        #search {
-            width: 100%;
-            height: 2.5rem;
-            border-radius: 1.5rem;
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            padding-left: 1rem;
-            background-color: $baseColor;
-
-            img {
-                width: 1.5rem;
-                height: 1.5rem;
-            }
-
-            input {
-                border: none;
-                width: 100%;
-                height: 100%;
-                padding-right: 1rem; 
-                border-top-right-radius: 1.5rem;
-                border-bottom-right-radius: 1.5rem;
-                @include text();
-                color: $white;
-                background-color: $baseColor;
-
-                &:focus {
-                    outline: none;
-                }
-
-                &::placeholder {
-                    color: $darkLabel;
-                    @include text();
                 }
             }
         }

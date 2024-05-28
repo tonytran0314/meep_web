@@ -19,12 +19,19 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faUser, faRightFromBracket, faMagnifyingGlass, faX, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faUser, 
+    faRightFromBracket, 
+    faMagnifyingGlass, 
+    faX, 
+    faCopy,
+    faUserGroup
+} from '@fortawesome/free-solid-svg-icons'
 
 const app = createApp(App)
 
 /* add icons to the library */
-library.add(faUser, faRightFromBracket, faMagnifyingGlass, faX, faCopy)
+library.add(faUser, faRightFromBracket, faMagnifyingGlass, faX, faCopy, faUserGroup)
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(router)
