@@ -1,22 +1,42 @@
 <script setup>
     import {useRoute} from 'vue-router'
-    import { watchEffect, ref } from 'vue'
+    import { watchEffect, reactive, onMounted } from 'vue'
+    import axios from 'axios'
 
     const route = useRoute()
-    const showSkeleton = ref(true)
-    const props = defineProps({
-        currentChatName: String
+    const chatRoom = reactive({
+        avatar: null,
+        name: null
     })
-
-    const checkChatName = () => {
-        // if get current chat name from the api, hide the skeleton
-        if (props.currentChatName) {
-            showSkeleton.value = false
+    
+    const getChatRoomHeader = async (id) => {
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/api/v1/conversation/' + id)
+            fecthData(res.data.data)
+        } catch (error) {
+            throw(error)
         }
     }
 
+    const avatarUrl = (avatar) => {
+        const domain = import.meta.env.VITE_API_DOMAIN
+        const port = import.meta.env.VITE_API_PORT
+        const url = domain + ':' + port
+        
+        return url + avatar
+    }
+
+    const fecthData = (data) => {
+        chatRoom.avatar = avatarUrl(data.avatar)
+        chatRoom.name = data.name
+    }
+
+    onMounted(() => {
+        getChatRoomHeader(route.params.conversationId)
+    })
+
     watchEffect(() => {
-        checkChatName()
+        getChatRoomHeader(route.params.conversationId)
     })
 </script>
 
@@ -24,9 +44,9 @@
     <div id="chat_header">
         <div id="current_chat_avatar_name">
             <div id="current_chat_avatar">
-                <img src="/src/assets/images/huy.jpg" alt="avatar">
+                <img :src="chatRoom.avatar" alt="avatar">
             </div>
-            <h5>{{ props.currentChatName }}</h5>
+            <h5>{{ chatRoom.name }}</h5>
         </div>
         <div id="call_methods">
             <div id="voice_call">

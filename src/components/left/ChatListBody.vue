@@ -11,7 +11,7 @@
     const emit = defineEmits(['gotListFromApi'])
 
     const getConversations = async () => {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('api_token')
         try {
             const res = await axios.get('http://127.0.0.1:8000/api/v1/conversations')
             fetchConversations(res.data.data)
@@ -25,8 +25,8 @@
         conversations.value = returnData
     }
 
-    const openConversation = (id) => {
-        router.push('/chat/' + id)
+    const openConversation = (type, id) => {
+        router.push('/' + type + '/' + id)
     }
 
     const avatarUrl = (avatar) => {
@@ -53,7 +53,7 @@
             :name="conversation.name" 
             :conversationId="conversation.id"
             :avatar="avatarUrl(conversation.avatar)"
-            @click="openConversation(conversation.id)" />
+            @click="openConversation(conversation.type, conversation.id)" />
     </div>
 </template>
 

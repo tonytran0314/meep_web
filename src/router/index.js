@@ -5,8 +5,8 @@ import SignUpView from '/src/views/SignUpView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/chat', component: HomeView },
-  { path: '/chat/:conversationId([0-9]+)', component: HomeView},
+  { path: '/:conversationType', component: HomeView },
+  { path: '/:conversationType([g,a])/:conversationId([0-9]+)', component: HomeView},
   { path: '/login', component: LoginView },
   { path: '/signup', component: SignUpView },
 ]
