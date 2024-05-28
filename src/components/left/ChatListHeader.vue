@@ -121,6 +121,7 @@
                 border-radius: .5rem;
                 border-top-left-radius: 0;
                 display: v-bind('settingsDisplay');
+                box-shadow: 0 1rem 1rem 1rem rgba(0, 0, 0, 0.3);
                 background-color: $secondaryButton;
                 color: $white;
                 ul {
