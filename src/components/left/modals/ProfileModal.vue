@@ -208,7 +208,7 @@
             padding: 3rem 6rem;
             border-radius: 0.5rem;
             box-shadow: 0 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
-            background-color: $baseColor;
+            background-color: $boxColor;
 
             .close_btn {
                 position: absolute;
@@ -227,7 +227,7 @@
                 transition: .2s;
 
                 &:hover {
-                    background-color: $boxColor;
+                    background-color: $baseColor;
                 }
             }
 
@@ -261,7 +261,7 @@
 
                         input {
                             border: none;
-                            background-color: $boxColor;
+                            background-color: $baseColor;
                             padding: 0.5rem 1rem;
                             border-radius: 0.5rem;
                             @include text();

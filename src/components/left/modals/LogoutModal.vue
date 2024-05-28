@@ -80,7 +80,7 @@
             padding: 2rem 4rem;
             border-radius: 0.5rem;
             box-shadow: 0 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
-            background-color: $baseColor;
+            background-color: $boxColor;
 
             #modal_content {
                 display: flex;
@@ -105,7 +105,7 @@
                 transition: .2s;
 
                 &:hover {
-                    background-color: $boxColor;
+                    background-color: $baseColor;
                 }
             }
 
